@@ -11,6 +11,8 @@ def get_env(key_name)
   ENV[var_name] || raise("missing #{var_name} environment variable!")
 end
 
+puts "AWS Region is required. Using: #{get_env(:aws_region)}"
+
 sqs = AWS::SQS.new(
   :access_key_id => get_env(:aws_access_key_id),
   :secret_access_key => get_env(:aws_secret_access_key)
