@@ -15,17 +15,8 @@ sqs = AWS::SQS.new(
 
 queue = sqs.queues.create get_env(:schema_pool_queue)
 
-begin
-  value = queue.visible_messages
-  puts "Schema pool size at #{Time.now}: #{value}"
+value = queue.visible_messages
+puts "Schema pool size at #{Time.now}: #{value}"
 
-  Librato::Metrics.authenticate(get_env(:librato_username), get_env(:librato_api_key))
-  Librato::Metrics.submit :"mingle.schema-pool.size" => value
-rescue => e
-  puts %Q(
-Error sending metric to librato:
-#{e.message}
-
-#{e.backtrace.join("\n")}
-)
-end
+Librato::Metrics.authenticate(get_env(:librato_username), get_env(:librato_api_key))
+Librato::Metrics.submit :"mingle.schema-pool.size" => value
