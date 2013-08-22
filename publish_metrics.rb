@@ -1,7 +1,10 @@
 require "rubygems"
 require "bundler/setup"
 
-Bundler.require
+Bundler.setup
+
+require "aws"
+require "librato/metrics"
 
 def get_env(key_name)
   var_name = key_name.to_s.upcase
